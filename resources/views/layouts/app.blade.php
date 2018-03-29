@@ -15,38 +15,42 @@
 </head>
 <body>
     <div id="app" style="display:none">
-        <topo titulo="{{ config('app.name', 'Laravel') }}" url="{{ url('/') }}">
-            <!-- Authentication Links -->
-            @guest
-                <li><a href="{{ route('login') }}">Login</a></li>
-                <li><a href="{{ route('register') }}">Register</a></li>
-            @else
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        {{ Auth::user()->name }} <span class="caret"></span>
-                    </a>
 
-                    <ul class="dropdown-menu" role="menu">
-                        <li>
-                            <a href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                Logout
-                            </a>
+      <topo titulo="{{ config('app.name', 'Laravel') }}" url="{{ url('/') }}">
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                        </li>
-                    </ul>
-                </li>
-            @endguest
-        </topo>
+        <!-- Authentication Links -->
+        @guest
+            <li><a href="{{ route('login') }}">Login</a></li>
+            <li><a href="{{ route('register') }}">Register</a></li>
+        @else
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    {{ Auth::user()->name }} <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                </ul>
+            </li>
+        @endguest
+
+      </topo>
 
         @yield('content')
     </div>
 
     <!-- Scripts -->
+    <script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

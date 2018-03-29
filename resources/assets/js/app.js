@@ -16,20 +16,21 @@ Vue.use(Vuex);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-//Vuex
 
-const store = new Vuex.Store({
-    state:{
-        item:{}
-    },
-    mutations: {
-        setItem(state, obj){
-            state.item = obj;
-        }
-    }
-});
+ //Vuex
 
-Vue.component('example', require('./components/Example.vue'));
+ const store = new Vuex.Store({
+   state:{
+     item:{}
+   },
+   mutations:{
+     setItem(state,obj){
+       state.item = obj;
+     }
+   }
+ });
+
+
 Vue.component('topo', require('./components/Topo.vue'));
 Vue.component('painel', require('./components/Painel.vue'));
 Vue.component('caixa', require('./components/Caixa.vue'));
@@ -37,14 +38,15 @@ Vue.component('pagina', require('./components/Pagina.vue'));
 Vue.component('tabela-lista', require('./components/TabelaLista.vue'));
 Vue.component('migalhas', require('./components/Migalhas.vue'));
 Vue.component('modal', require('./components/modal/Modal.vue'));
-Vue.component('modal-link', require('./components/modal/ModalLink.vue'));
+Vue.component('modallink', require('./components/modal/ModalLink.vue'));
 Vue.component('formulario', require('./components/Formulario.vue'));
+Vue.component('ckeditor', require('./components/ckeditor.vue'));
 
 const app = new Vue({
     el: '#app',
     store,
-    mounted: function () {
-        console.log('ok');
-        document.getElementById('app').style.display = 'block';
+    mounted: function(){
+      console.log("ok");
+      document.getElementById('app').style.display = "block";
     }
 });
