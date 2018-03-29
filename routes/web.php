@@ -11,18 +11,32 @@
 |
 */
 
+use App\Artigo;
+
 Route::get('/', function () {
-    return view('welcome');
-});
+    $lista = Artigo::listaArtigosSite(3);
+    return view('site', compact('lista'));
+})->name('site');
+
+Route::get('/artigo/{id}/{titulo?}', function ($id) {
+    $artigo = Artigo::find($id);
+    if($id){
+        return view('artigo', compact('artigo'));
+    }
+
+    return redirect()->route('site');
+
+})->name('artigo');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/admin', 'AdminController@index')->name('admin')->middleware('can:autor');
 
 Route::middleware(['auth'])->prefix('admin')->namespace('Admin')->group(function(){
 
-  Route::resource('artigos', 'ArtigosController');
-  Route::resource('usuarios', 'UsuariosController');
-    Route::resource('autores', 'AutoresController');
+  Route::resource('artigos', 'ArtigosController')->middleware('can:autor');
+  Route::resource('usuarios', 'UsuariosController')->middleware('can:admin');
+  Route::resource('autores', 'AutoresController')->middleware('can:admin');
+  Route::resource('adm', 'AdminController')->middleware('can:admin');
 
 });
