@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Task;
 
-class TaskBoardController extends Controller
+class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,7 @@ class TaskBoardController extends Controller
      */
     public function index()
     {
-        return view('taskboard.index');
+        //
     }
 
     /**
@@ -34,7 +35,9 @@ class TaskBoardController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $data = $request->all();
+        Task::create($data);
+        return redirect()->back();
     }
 
     /**
@@ -45,7 +48,7 @@ class TaskBoardController extends Controller
      */
     public function show($id)
     {
-        //
+        return Task::find($id);
     }
 
     /**
@@ -68,7 +71,17 @@ class TaskBoardController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $validacao = \Validator::make($data,[
+            "titulo" => "required"
+        ]);
+
+        if($validacao->fails()){
+            return redirect()->back()->withErrors($validacao)->withInput();
+        }
+
+        Task::find($id)->update($data);
+        return redirect()->back();
     }
 
     /**
@@ -79,6 +92,7 @@ class TaskBoardController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Task::find($id)->delete();
+        return redirect()->back();
     }
 }

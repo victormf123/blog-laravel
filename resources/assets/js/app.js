@@ -21,12 +21,17 @@ Vue.use(Vuex);
 
  const store = new Vuex.Store({
    state:{
-     item:{}
+     item:{},
+     user_id:''
    },
    mutations:{
      setItem(state,obj){
        state.item = obj;
+     },
+     setUserId(state, obj){
+         state.user_id = obj;
      }
+
    }
  });
 
@@ -42,6 +47,8 @@ Vue.component('modallink', require('./components/modal/ModalLink.vue'));
 Vue.component('formulario', require('./components/Formulario.vue'));
 Vue.component('ckeditor', require('./components/ckeditor.vue'));
 Vue.component('artigo-card', require('./components/ArtigoCard'));
+Vue.component('board', require('./components/TaskBoard/Board.vue'));
+Vue.component('task', require('./components/TaskBoard/Task.vue'));
 
 const app = new Vue({
     el: '#app',

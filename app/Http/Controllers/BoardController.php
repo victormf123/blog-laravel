@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Board;
 
-class TaskBoardController extends Controller
+class BoardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,8 @@ class TaskBoardController extends Controller
      */
     public function index()
     {
-        return view('taskboard.index');
+        $listaModelo = json_encode(Board::seletec('id','titulo')->get());
+        return view('/', compact('listaModelo'));
     }
 
     /**
@@ -34,7 +36,16 @@ class TaskBoardController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+
+        $data = $request->all();
+        $validacao = \Validator::make($data,[
+            "titulo" => "required",
+        ]);
+        if($validacao->fails()){
+            return redirect()->back()->withErrors($validacao)->withInput();
+        }
+        Board::create($data);
+        return redirect()->back();
     }
 
     /**
@@ -45,7 +56,7 @@ class TaskBoardController extends Controller
      */
     public function show($id)
     {
-        //
+        return Board::find($id);
     }
 
     /**

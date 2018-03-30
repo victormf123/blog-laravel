@@ -18,12 +18,23 @@
 
 <script>
     export default {
-      props:['tipo','nome','titulo','css','item','url'],
+      props:['id', 'tipo','nome','titulo','css','item','url', 'user_id'],
       methods:{
+        executaForm: function(index){
+            document.getElementById(index).submit();
+        },
         preencheFormulario:function(){
-          axios.get(this.url + this.item.id).then(res => {            
-            this.$store.commit('setItem',res.data);
-          });
+            this.$store.commit('setUserId', this.user_id);
+            if(this.item.id != undefined){
+                axios.get(this.url + this.item.id).then(res => {
+                    this.$store.commit('setItem',res.data);
+                });
+            }else{
+                axios.get(this.url + this.id).then(res => {
+                    console.log(res.data)
+                    this.$store.commit('setItem',res.data);
+                });
+            }
           //this.$store.commit('setItem',this.item);
         }
       }

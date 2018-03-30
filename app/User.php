@@ -36,4 +36,7 @@ class User extends Authenticatable
     {
         $this->notify(new MailResetPasswordToken($token));
     }
+    public function tasks(){
+        return $this->hasOne('App\Task');
+    }
 }

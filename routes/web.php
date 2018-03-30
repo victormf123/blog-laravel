@@ -11,11 +11,19 @@
 |
 */
 
-use App\Artigo;
+use App\Task;
+use App\Board;
+use App\User;
 
 Route::get('/', function () {
-    $lista = Artigo::listaArtigosSite(3);
-    return view('site', compact('lista'));
+
+    $listaBoard = Board::select('id','titulo')->get();
+    $listaTask = Task::select('id','titulo', 'descricao', 'board_id', 'user_id')
+        ->join('users', 'users.id', '=', 'tasks.user_id')
+        ->select('tasks.id','tasks.titulo','tasks.descricao', 'users.name as username', 'tasks.board_id', 'tasks.user_id')
+        ->get();
+    $listaUsuarios = User::select('id','name')->get();
+    return view('site', compact('listaBoard', 'listaTask', 'listaUsuarios'));
 })->name('site');
 
 Route::get('/artigo/{id}/{titulo?}', function ($id) {
@@ -29,8 +37,15 @@ Route::get('/artigo/{id}/{titulo?}', function ($id) {
 })->name('artigo');
 
 Auth::routes();
+Route::middleware(['auth'])->group(function(){
+
+    Route::resource('task', 'TaskController')->middleware('auth');
+    Route::resource('board', 'BoardController')->middleware('auth');
+
+});
 
 Route::get('/admin', 'AdminController@index')->name('admin')->middleware('can:autor');
+
 
 Route::middleware(['auth'])->prefix('admin')->namespace('Admin')->group(function(){
 

@@ -72,6 +72,8 @@
     </span>
 
   </modal>
+
+
   <modal nome="editar" titulo="Editar">
     <formulario id="formEditar" v-bind:action="'/admin/artigos/' + $store.state.item.id" method="put" enctype="" token="{{ csrf_token() }}">
 
